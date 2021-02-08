@@ -1,3 +1,5 @@
 go build ./csv2sql/csv2sql.go
 
 .\csv2sql -f csv\events.csv -t Events
+
+https://github.com/baidu-casual/databaseTask.git
