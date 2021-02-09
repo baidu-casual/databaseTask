@@ -1,3 +1,0 @@
-[submodule "csv2sql"]
-	path = csv2sql
-	url = https://github.com/wiremoons/csv2sql.git
