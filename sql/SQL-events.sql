@@ -1,3 +1,5 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
 CREATE TABLE Events ("serial_number","selector_id","event_name");
 INSERT INTO Events VALUES ("343754","49","temp-avg");
 INSERT INTO Events VALUES ("343754","49","wind_dir-avg");

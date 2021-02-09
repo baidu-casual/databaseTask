@@ -1,3 +1,5 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
 CREATE TABLE SelectorData ("serial_number","super_id","cust_id","country","model","capacity");
 INSERT INTO SelectorData VALUES ("343730","389641","31573","Canada","V90","3000");
 INSERT INTO SelectorData VALUES ("343731","389641","31574","Canada","V90","3000");

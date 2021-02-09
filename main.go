@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 
+	"databaseTask/cmd"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite" //using sqlite
 )
@@ -14,12 +16,12 @@ import (
 var Filenames []string
 
 func init() {
-	Filenames = []string{"selector_data", "events_data", "events"}
+	Filenames = []string{"test.db", "selector_data", "events_data", "events"}
 }
-func sqlFileToDB(filename string) {
+func sqlFileToDB(filename string, dbname string) {
 	var flag error
 
-	db, err := gorm.Open("sqlite3", "test.db")
+	db, err := gorm.Open("sqlite3", dbname)
 	if err != nil {
 		panic("can't connect to database")
 	}
@@ -49,8 +51,12 @@ func sqlFileToDB(filename string) {
 		}
 	}
 }
+
 func main() {
-	//cmd.Exec()
+	cmd.Exec()
+
 	fmt.Print("sql/SQL-" + Filenames[0] + ".sql\n")
-	sqlFileToDB(Filenames[0])
+	sqlFileToDB(Filenames[1], Filenames[0])
+	sqlFileToDB(Filenames[2], Filenames[0])
+	sqlFileToDB(Filenames[3], Filenames[0])
 }
