@@ -1,0 +1,1 @@
+SELECT serial_number, count(serial_number) as "No of Records" FROM EventsData GROUP by serial_number;

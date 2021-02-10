@@ -1,6 +1,6 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
-CREATE TABLE EventsData ("serial_number","super_id","event_timestamp","event_date","temp_avg","active_pwr_avg","wind_dir_avg","available_pwr_avg");
+CREATE TABLE EventsData ("serial_number","super_id","event_timestamp","event_date","temp-avg","active_pwr-avg","wind_dir-avg","available_pwr-avg");
 INSERT INTO EventsData VALUES ("587854","587863","2021-01-01T08:50:00.000Z","2021-01-01","23.915239","509.495513","329.133333","460.751693");
 INSERT INTO EventsData VALUES ("587854","587863","2021-01-01T13:20:00.000Z","2021-01-01","21.241849","231.366663","337.216667","233.398870");
 INSERT INTO EventsData VALUES ("587854","587863","2021-01-01T14:00:00.000Z","2021-01-01","20.644498","479.096256","339.907563","471.578343");

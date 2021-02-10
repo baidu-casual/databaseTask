@@ -1,0 +1,1 @@
+SELECT super_id, count(super_id) as "No of Records" FROM EventsData GROUP by super_id;

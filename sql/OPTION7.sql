@@ -1,0 +1,1 @@
+SELECT e.*, COUNT(event_timestamp) as "No of Records" FROM EventsData e GROUP BY serial_number, event_timestamp ORDER BY serial_number ASC;

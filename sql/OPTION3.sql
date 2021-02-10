@@ -1,0 +1,1 @@
+SELECT * FROM EventsData WHERE serial_number="587845";

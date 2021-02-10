@@ -1,0 +1,1 @@
+SELECT e.*, COUNT(event_timestamp) as "Duplicate Records" FROM EventsData e GROUP BY serial_number, event_timestamp HAVING COUNT(*) > 1;

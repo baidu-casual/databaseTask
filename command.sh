@@ -12,11 +12,11 @@ mv csv2sql csv2sqlconv
 echo "Building csv2sql.go..."
 go build ./csv2sqlconv/csv2sql.go
 
-./csv2sql -f csv/selector_data.csv -t SelectorData
+./csv2sql -f csv/selector_data.csv -t SelectorData -k=true
 
-./csv2sql -f csv/events_data.csv -t EventsData
+./csv2sql -f csv/events_data.csv -t EventsData -k=true
 
-./csv2sql -f csv/events.csv -t Events
+./csv2sql -f csv/events.csv -t Events -k=true
 
 echo "Removing csv2sqlconv directory..."
 rm -r -f csv2sqlconv
