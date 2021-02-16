@@ -1,0 +1,1 @@
+UPDATE <table> SET <column> = 0 WHERE <column> IS NULL OR "";

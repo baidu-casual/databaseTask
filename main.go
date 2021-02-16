@@ -7,8 +7,8 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/sqlite" //using sqlite
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 //EventsDataAVG table
@@ -22,26 +22,29 @@ type EventsDataAVG struct {
 	EventAvg        float64 `gorm:"column:events-avg"`
 }
 
+type cred struct {
+	username string
+	password string
+}
+
 //Events table
 type Events struct {
 	EventName string `gorm:"column:event_name"`
 }
 
 //Filenames contains the csv filenames
-var Filenames []string
+var (
+	Filenames []string
+	user      cred
+)
 
 func init() {
 	Filenames = []string{"test.db", "SQL-selector_data", "SQL-events_data", "SQL-events", "OPTION"}
+	user.username = "baidu"
+	user.password = "IxEMu4p5s3ApbbQD"
 }
-func sqlFileToDB(filename string, dbname string) {
+func sqlFileToDB(filename string, db *gorm.DB) {
 	var flag error
-
-	db, err := gorm.Open("sqlite3", dbname)
-	if err != nil {
-		panic("can't connect to database")
-	}
-	defer db.Close()
-	db.LogMode(true)
 
 	file, err := os.Open(string("sql/" + filename + ".sql"))
 	if err != nil {
@@ -66,15 +69,8 @@ func sqlFileToDB(filename string, dbname string) {
 		}
 	}
 }
-func script(filename string, dbname string) {
+func script(filename string, db *gorm.DB) {
 	var flag error
-
-	db, err := gorm.Open("sqlite3", dbname)
-	if err != nil {
-		panic("can't connect to database")
-	}
-	defer db.Close()
-	db.LogMode(true)
 
 	file, err := os.Open(string("sql/" + filename + ".sql"))
 	if err != nil {
@@ -93,26 +89,20 @@ func script(filename string, dbname string) {
 	for _, eachln := range text {
 		fmt.Println(eachln)
 		result := db.Raw(eachln)
+		fmt.Printf("Rows Affected : %v\n", result.RowsAffected)
 		flag = result.Error
 		if flag != nil {
 			log.Fatalf("Error : %f", flag)
 		}
 	}
 }
-func opt10(dbname string) []EventsDataAVG {
+func opt10(db *gorm.DB) []EventsDataAVG {
 	var (
 		flag error
 		//res  []EventsDataAVG
 		evnt []Events
 		data []EventsDataAVG
 	)
-	db, err := gorm.Open("sqlite3", dbname)
-	if err != nil {
-		panic("can't connect to database")
-	}
-	defer db.Close()
-
-	//db.LogMode(true)
 
 	result := db.Raw("SELECT * FROM EventsData ORDER BY serial_number, event_timestamp;").Scan(&data)
 	flag = result.Error
@@ -171,18 +161,13 @@ func opt10(dbname string) []EventsDataAVG {
 	return data
 }
 
-func createEventsDataAVG(event EventsDataAVG, dbname string) {
-	db, err := gorm.Open("sqlite3", dbname)
+func main() {
+	login := user.username + ":" + user.password
+	dsn := "@tcp(localhost:3306)/xenonstack?charset=utf8mb4"
+	db, err := gorm.Open(mysql.Open(login+dsn), &gorm.Config{})
 	if err != nil {
 		panic("can't connect to database")
 	}
-	defer db.Close()
-	db.LogMode(true)
-
-	db.Create(&event)
-}
-
-func main() {
 	var option int
 	for {
 		fmt.Print("\n\n\nOPTIONS :-\n\n")
@@ -212,43 +197,42 @@ func main() {
 		case 1:
 			//cmd.Exec()
 			fmt.Print("sql/SQL-" + Filenames[0] + ".sql\n")
-			sqlFileToDB(Filenames[1], Filenames[0])
-			sqlFileToDB(Filenames[2], Filenames[0])
-			sqlFileToDB(Filenames[3], Filenames[0])
+			sqlFileToDB(Filenames[1], db)
+			sqlFileToDB(Filenames[2], db)
+			sqlFileToDB(Filenames[3], db)
 		case 2:
-			script((Filenames[4] + "2"), Filenames[0])
+			script((Filenames[4] + "2"), db)
 		case 3:
-			script((Filenames[4] + "3"), Filenames[0])
+			script((Filenames[4] + "3"), db)
 		case 4:
-			script((Filenames[4] + "4"), Filenames[0])
+			script((Filenames[4] + "4"), db)
 		case 5:
-			script((Filenames[4] + "5"), Filenames[0])
+			script((Filenames[4] + "5"), db)
 		case 6:
-			script((Filenames[4] + "6"), Filenames[0])
+			script((Filenames[4] + "6"), db)
 		case 7:
-			script((Filenames[4] + "7"), Filenames[0])
+			script((Filenames[4] + "7"), db)
 		case 8:
-			script((Filenames[4] + "8"), Filenames[0])
+			script((Filenames[4] + "8"), db)
 		case 9:
-			script((Filenames[4] + "9"), Filenames[0])
+			script((Filenames[4] + "9"), db)
 		case 10:
-			table := opt10(Filenames[0])
+			table := opt10(db)
 			for i := range table {
 				fmt.Println(table[i])
-				createEventsDataAVG(table[i], Filenames[0])
+				db.Create(&table[i])
 			}
 		case 11:
-			script((Filenames[4] + "11"), Filenames[0])
+			script((Filenames[4] + "11"), db)
 		case 13:
-			sqlFileToDB((Filenames[4] + "13_1"), Filenames[0])
-			sqlFileToDB((Filenames[4] + "13_2"), Filenames[0])
-			sqlFileToDB((Filenames[4] + "13_3"), Filenames[0])
-			sqlFileToDB((Filenames[4] + "13_4"), Filenames[0])
+			sqlFileToDB((Filenames[4] + "13_1"), db)
+			sqlFileToDB((Filenames[4] + "13_2"), db)
+			sqlFileToDB((Filenames[4] + "13_3"), db)
+			sqlFileToDB((Filenames[4] + "13_4"), db)
 		case 19:
 			os.Exit(0)
 		default:
 			fmt.Println("Wrong Choice!")
 		}
 	}
-
 }

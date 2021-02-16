@@ -1,6 +1,4 @@
-PRAGMA foreign_keys=OFF;
-BEGIN TRANSACTION;
-CREATE TABLE SelectorData ("serial_number","super_id","cust_id","country","model","capacity");
+CREATE TABLE SelectorData ( serial_number INTEGER NOT NULL, super_id INTEGER NOT NULL, cust_id VARCHAR(20),country VARCHAR(20),model VARCHAR(20),capacity INTEGER)
 INSERT INTO SelectorData VALUES ("343730","389641","31573","Canada","V90","3000");
 INSERT INTO SelectorData VALUES ("343731","389641","31574","Canada","V90","3000");
 INSERT INTO SelectorData VALUES ("343741","389641","31584","Canada","V90","3000");
@@ -68,4 +66,3 @@ INSERT INTO SelectorData VALUES ("587851","587863","TKD-02","India","GE132","270
 INSERT INTO SelectorData VALUES ("587854","587863","BTV-05","India","GE132","2700");
 INSERT INTO SelectorData VALUES ("587858","587863","NGH-01","India","GE132","2700");
 INSERT INTO SelectorData VALUES ("343771","389641","31614","Canada","V90","3000");
-COMMIT;

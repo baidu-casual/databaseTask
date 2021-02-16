@@ -1,6 +1,4 @@
-PRAGMA foreign_keys=OFF;
-BEGIN TRANSACTION;
-CREATE TABLE Events ("serial_number","selector_id","event_name");
+CREATE TABLE Events ( serial_number INTEGER NOT NULL, selector_id INTEGER NOT NULL, event_name VARCHAR(20));
 INSERT INTO Events VALUES ("343754","49","temp-avg");
 INSERT INTO Events VALUES ("343754","49","wind_dir-avg");
 INSERT INTO Events VALUES ("343754","49","available_pwr-avg");
@@ -461,4 +459,3 @@ INSERT INTO Events VALUES ("343765","49","temp-avg");
 INSERT INTO Events VALUES ("343765","49","wind_dir-avg");
 INSERT INTO Events VALUES ("343765","49","available_pwr-avg");
 INSERT INTO Events VALUES ("343765","49","active_pwr-avg");
-COMMIT;
